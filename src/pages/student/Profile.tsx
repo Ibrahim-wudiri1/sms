@@ -81,7 +81,7 @@ const Profile = () => {
           <div className="space-y-2">
             <p>
               <strong>Course:</strong> {activeEnrollment.course.code} -{" "}
-              {activeEnrollment.course.name}
+              {activeEnrollment.course.title}
             </p>
             <p>
               <strong>Status:</strong>{" "}
@@ -123,7 +123,7 @@ const Profile = () => {
               {profile.enrollments.map((enrollment) => (
                 <tr key={enrollment.id} className="border-b hover:bg-gray-100">
                   <td className="p-2">
-                    {enrollment.course.code} - {enrollment.course.name}
+                    {enrollment.course.code} - {enrollment.course.title}
                   </td>
                   <td className="p-2">{enrollment.status}</td>
                   <td className="p-2">
