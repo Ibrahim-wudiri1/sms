@@ -1,0 +1,18 @@
+/* src/index.css */
+@import "tailwindcss";
+
+@theme {
+  /* optional: add custom theme overrides here later */
+}
+
+/* Optional base styles you like */
+@layer base {
+  :root {
+    --background: oklch(0.985 0 0);
+    --foreground: oklch(0.145 0 0);
+  }
+
+  body {
+    @apply bg-[var(--background)] text-[var(--foreground)];
+  }
+}
