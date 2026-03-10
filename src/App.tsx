@@ -1,5 +1,5 @@
 // src/App.tsx
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./api/routes/ProtectedRoute";
 import AdminLayout from "./layouts/AdminLayout";
@@ -24,6 +24,7 @@ const App = () => {
       <BrowserRouter>
         <Routes>
           <Route path="/login" element={<Login />} />
+          <Route path="/" element={<Navigate to="/login" replace />} />
 
           <Route
             path="/admin/*"
@@ -55,6 +56,8 @@ const App = () => {
             <Route path="profile" element={<Profile />} />
             <Route path="academic-records" element={<AcademicRecords />} />
           </Route>
+
+          <Route path="*" element={<div>404 - Page not found</div>} />
         </Routes>
       </BrowserRouter>
     </AuthProvider>
