@@ -2,7 +2,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL ||"http://localhost:5000/api",
+  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000/api",
   withCredentials: true,
 });
 
@@ -22,21 +22,30 @@ api.interceptors.request.use((config) => {
 api.interceptors.response.use(
   (res) => res,
   async (error) => {
-    if (error.response?.status === 401) {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
       try {
         const res = await axios.post(
-          "http://localhost:5000/auth/refresh",
+          `${import.meta.env.VITE_API_URL || "http://localhost:5000"}/api/auth/refresh`,
           {},
           { withCredentials: true }
         );
 
-        setAccessToken(res.data.accessToken);
-        error.config.headers.Authorization = `Bearer ${res.data.accessToken}`;
-        return axios(error.config);
-      } catch {
+        const newToken = res.data.accessToken;
+        setAccessToken(newToken);
+        originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+        return api(originalRequest);
+      } catch (refreshError) {
+        setAccessToken(null);
         window.location.href = "/login";
+        return Promise.reject(refreshError);
       }
     }
+
     return Promise.reject(error);
   }
 );
