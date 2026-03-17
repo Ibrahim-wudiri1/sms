@@ -32,7 +32,7 @@ const AddAcademicRecord = () => {
   }, []);
 
   const fetchStudents = async () => {
-    const res = await api.get("/admin/students", {
+    const res = await api.get("/admin/students/all", {
       params: { page: 1, limit: 100 },
     });
     setStudents(res.data.data);
