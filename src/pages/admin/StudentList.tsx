@@ -34,16 +34,17 @@ const StudentsList = () => {
 
   const fetchStudents = async () => {
     try {
-      const res = await api.get<ApiResponse>("/admin/students", {
-        params: {
-          page,
-          limit: 10,
-          search,
-        },
-      });
+      const res = await api.get("/admin/students/all");
+      // const res = await api.get<ApiResponse>("/admin/students/pagination", {
+      //   params: {
+      //     page,
+      //     limit: 10,
+      //     search,
+      //   },
+      // });
 
-      setStudents(res.data.data);
-      setTotalPages(res.data.totalPages);
+      setStudents(res.data);
+      // setTotalPages(res.data.totalPages);
     } catch (err: any) {
       console.error("Failed to fetch students:", err);
       alert(err.response?.data?.message || "Failed to load students");

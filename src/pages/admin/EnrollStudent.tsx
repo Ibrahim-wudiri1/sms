@@ -36,7 +36,7 @@ const EnrollStudent = () => {
   }, []);
 
   const fetchStudents = async () => {
-    const res = await api.get("/admin/studentss");
+    const res = await api.get("/admin/students/all");
     console.log("Fetched students: ", res.data);
     setStudents(res.data);
   };
@@ -61,6 +61,7 @@ const EnrollStudent = () => {
 
   const onSubmit = async (data: EnrollmentForm) => {
     try {
+      // console.log("Enrollment Data: ", data);
       await api.post("/admin/enroll", data);
       alert("Enrollment successful");
       setActiveCourse(null);
