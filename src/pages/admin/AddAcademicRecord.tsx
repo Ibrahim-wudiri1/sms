@@ -32,15 +32,15 @@ const AddAcademicRecord = () => {
   }, []);
 
   const fetchStudents = async () => {
-    const res = await api.get("/admin/students/all", {
-      params: { page: 1, limit: 100 },
-    });
-    setStudents(res.data.data);
+    const res = await api.get("/admin/students/all");
+    console.log("Fetched students:", res.data);
+    setStudents(res.data);
   };
 
   const fetchEnrollments = async (studentId: number) => {
     try {
         const res = await api.get(`/admin/enrollments/student/${studentId}`);
+        console.log("Fetched enrollments:", res.data);
         setEnrollments(res.data);
     } catch (err: any) {
       console.error("Error fetching enrollments:", err);
