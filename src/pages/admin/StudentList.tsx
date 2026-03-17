@@ -14,18 +14,18 @@ interface Student {
   };
 }
 
-interface ApiResponse {
-  data: Student[];
-  total: number;
-  page: number;
-  totalPages: number;
-}
+// interface ApiResponse {
+//   data: Student[];
+//   total: number;
+//   page: number;
+//   totalPages: number;
+// }
 
 const StudentsList = () => {
   const [students, setStudents] = useState<Student[]>([]);
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -146,11 +146,11 @@ const StudentsList = () => {
         </button>
 
         <span>
-          Page {page} of {totalPages}
+          {/* Page {page} of //{totalPages} */}
         </span>
 
         <button
-          disabled={page === totalPages}
+          // disabled={page === totalPages}
           onClick={() => setPage((prev) => prev + 1)}
           className="px-3 py-1 border rounded disabled:opacity-50"
         >
