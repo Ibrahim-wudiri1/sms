@@ -83,14 +83,25 @@ const CreateStudent = () => {
       <form onSubmit={handleSubmit(onSubmit)} className="bg-white p-6 rounded shadow space-y-4">
         {/* Login Info */}
         <div className="grid grid-cols-2 gap-4">
-          <input {...register("serviceNumber", { required: true })} placeholder="Service Number" className="border p-2 rounded" />
-          <input type="password" {...register("password", { required: true })} placeholder="Password" className="border p-2 rounded" />
-        </div>
+         </div>
 
         {/* Personal Info */}
         <div className="grid grid-cols-2 gap-4">
+          <input {...register("rank", { required: true })} placeholder="Rank" className="border p-2 rounded" />
           <input {...register("firstName", { required: true })} placeholder="First Name" className="border p-2 rounded" />
           <input {...register("lastName", { required: true })} placeholder="Last Name" className="border p-2 rounded" />
+          
+          <input {...register("serviceNumber", { required: true })} placeholder="Service Number" className="border p-2 rounded" />
+          <input type="password" {...register("password", { required: true })} placeholder="Password" className="border p-2 rounded" />
+          <input {...register("unit", { required: true })} placeholder="Unit" className="border p-2 rounded" />
+          <input {...register("address", { required: true })} placeholder="Core" className="border p-2 rounded" />
+          <input {...register("maritalStatus", { required: true })} placeholder="Service e.g Army, Navy..." className="border p-2 rounded" />
+          <input {...register("phone", { required: true })} placeholder="Phone" className="border p-2 rounded" />
+          <input {...register("email", { required: true })} placeholder="Email" className="border p-2 rounded" />
+          <input {...register("batch", { required: true })} placeholder="Quarter" className="border p-2 rounded" />
+          <input {...register("nationality", { required: true })} placeholder="Nationality" className="border p-2 rounded" />
+          <input type="date" {...register("enlistmentDate", { required: true })} className="border p-2 rounded" />
+      
           <select {...register("gender", { required: true })} className="border p-2 rounded">
             <option value="">Select Gender</option>
             <option value="Male">Male</option>
@@ -101,16 +112,7 @@ const CreateStudent = () => {
           <input type="date" {...register("dateOfBirth", { required: true })} className="border p-2 rounded" />
           <input {...register("stateOfOrigin", { required: true })} placeholder="State of Origin" className="border p-2 rounded" />
           <input {...register("lga", { required: true })} placeholder="LGA" className="border p-2 rounded" />
-          <input {...register("nationality", { required: true })} placeholder="Nationality" className="border p-2 rounded" />
-          <input {...register("maritalStatus", { required: true })} placeholder="Marital Status" className="border p-2 rounded" />
-          <input {...register("address", { required: true })} placeholder="Address" className="border p-2 rounded" />
-          <input {...register("phone", { required: true })} placeholder="Phone" className="border p-2 rounded" />
-          <input {...register("email", { required: true })} placeholder="Email" className="border p-2 rounded" />
-          <input {...register("rank", { required: true })} placeholder="Rank" className="border p-2 rounded" />
-          <input {...register("unit", { required: true })} placeholder="Unit" className="border p-2 rounded" />
-          <input type="date" {...register("enlistmentDate", { required: true })} className="border p-2 rounded" />
-          <input {...register("batch", { required: true })} placeholder="Batch" className="border p-2 rounded" />
-        </div>
+            </div>
 
         {/* Photo Upload */}
         <div>
