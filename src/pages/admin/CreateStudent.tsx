@@ -94,8 +94,8 @@ const CreateStudent = () => {
           <input {...register("serviceNumber", { required: true })} placeholder="Service Number" className="border p-2 rounded" />
           <input type="password" {...register("password", { required: true })} placeholder="Password" className="border p-2 rounded" />
           <input {...register("unit", { required: true })} placeholder="Unit" className="border p-2 rounded" />
-          <input {...register("address", { required: true })} placeholder="Core" className="border p-2 rounded" />
-          <input {...register("maritalStatus", { required: true })} placeholder="Service e.g Army, Navy..." className="border p-2 rounded" />
+          <input {...register("address", { required: true })} placeholder="Corp" className="border p-2 rounded" />
+          <input {...register("maritalStatus", { required: true })} placeholder="Services e.g Army, Navy..." className="border p-2 rounded" />
           <input {...register("phone", { required: true })} placeholder="Phone" className="border p-2 rounded" />
           <input {...register("email", { required: true })} placeholder="Email" className="border p-2 rounded" />
           <input {...register("batch", { required: true })} placeholder="Quarter" className="border p-2 rounded" />

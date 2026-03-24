@@ -18,24 +18,24 @@ const EditStudent = () => {
     try {
       const res = await api.get(`/admin/students/${id}`);
       const student = res.data;
-
-      // Flatten the data for the form (important!)
+      console.log("Fetched student data: ", JSON.stringify(student, null, 2));
       reset({
-        firstName: student.firstName,
-        lastName: student.lastName,
-        gender: student.gender,
-        dateOfBirth: student.dateOfBirth ? student.dateOfBirth.split('T')[0] : '',
-        stateOfOrigin: student.stateOfOrigin,
-        lga: student.lga,
-        nationality: student.nationality,
-        maritalStatus: student.maritalStatus,
-        address: student.address,
-        phone: student.phone,
-        email: student.email,
-        rank: student.rank,
-        unit: student.unit,
-        enlistmentDate: student.enlistmentDate ? student.enlistmentDate.split('T')[0] : '',
-        batch: student.batch,
+        serviceNumber: student.user.serviceNumber || "",   // ← allow editing service number
+        firstName: student.firstName || "",
+        lastName: student.lastName || "",
+        gender: student.gender || "",
+        dateOfBirth: student.dateOfBirth ? student.dateOfBirth.split("T")[0] : "",
+        stateOfOrigin: student.stateOfOrigin || "",
+        lga: student.lga || "",
+        nationality: student.nationality || "",
+        maritalStatus: student.maritalStatus || "",
+        address: student.address || "",
+        phone: student.phone || "",
+        email: student.email || "",
+        rank: student.rank || "",
+        unit: student.unit || "",
+        enlistmentDate: student.enlistmentDate ? student.enlistmentDate.split("T")[0] : "",
+        batch: student.batch || "",
       });
     } catch (err) {
       alert("Failed to load student data");
@@ -54,7 +54,7 @@ const EditStudent = () => {
     }
   };
 
-  if (loading) return <div>Loading student data...</div>;
+  if (loading) return <div className="text-center py-10">Loading student data...</div>;
 
   return (
     <div>
@@ -64,21 +64,19 @@ const EditStudent = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-6 rounded shadow space-y-4 max-w-xl"
       >
+        <input {...register("serviceNumber")} placeholder="Service Number" className="border p-2 rounded w-full" />
         <input {...register("firstName")} placeholder="First Name" className="border p-2 rounded w-full" />
         <input {...register("lastName")} placeholder="Last Name" className="border p-2 rounded w-full" />
-        <input {...register("gender")} placeholder="Gender" className="border p-2 rounded w-full" />
-        <input type="date" {...register("dateOfBirth")} className="border p-2 rounded w-full" />
-        <input {...register("stateOfOrigin")} placeholder="State of Origin" className="border p-2 rounded w-full" />
-        <input {...register("lga")} placeholder="LGA" className="border p-2 rounded w-full" />
-        <input {...register("nationality")} placeholder="Nationality" className="border p-2 rounded w-full" />
-        <input {...register("maritalStatus")} placeholder="Marital Status" className="border p-2 rounded w-full" />
-        <input {...register("address")} placeholder="Address" className="border p-2 rounded w-full" />
-        <input {...register("phone")} placeholder="Phone" className="border p-2 rounded w-full" />
-        <input {...register("email")} placeholder="Email" className="border p-2 rounded w-full" />
         <input {...register("rank")} placeholder="Rank" className="border p-2 rounded w-full" />
         <input {...register("unit")} placeholder="Unit" className="border p-2 rounded w-full" />
-        <input type="date" {...register("enlistmentDate")} className="border p-2 rounded w-full" />
-        <input {...register("batch")} placeholder="Batch" className="border p-2 rounded w-full" />
+
+        <input {...register("gender")} placeholder="Gender" className="border p-2 rounded w-full" />
+       <input {...register("nationality")} placeholder="Nationality" className="border p-2 rounded w-full" />
+        <input {...register("maritalStatus")} placeholder="Services" className="border p-2 rounded w-full" />
+        <input {...register("address")} placeholder="Corps" className="border p-2 rounded w-full" />
+        <input {...register("phone")} placeholder="Phone" className="border p-2 rounded w-full" />
+        <input {...register("email")} placeholder="Email" className="border p-2 rounded w-full" />
+        <input {...register("batch")} placeholder="Quarter" className="border p-2 rounded w-full" />
 
         <button
           type="submit"
