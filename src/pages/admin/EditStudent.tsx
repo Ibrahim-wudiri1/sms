@@ -1,5 +1,5 @@
 // src/pages/admin/EditStudent.tsx
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useParams } from "react-router-dom";
 import api from "../../api/axios";
@@ -8,17 +8,39 @@ const EditStudent = () => {
   const { id } = useParams();
   const { register, handleSubmit, reset } = useForm();
   const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     fetchStudent();
-  }, []);
+  }, [id]);
 
   const fetchStudent = async () => {
     try {
       const res = await api.get(`/admin/students/${id}`);
-      reset(res.data);
-    } catch {
-      alert("Failed to load student");
+      const student = res.data;
+
+      // Flatten the data for the form (important!)
+      reset({
+        firstName: student.firstName,
+        lastName: student.lastName,
+        gender: student.gender,
+        dateOfBirth: student.dateOfBirth ? student.dateOfBirth.split('T')[0] : '',
+        stateOfOrigin: student.stateOfOrigin,
+        lga: student.lga,
+        nationality: student.nationality,
+        maritalStatus: student.maritalStatus,
+        address: student.address,
+        phone: student.phone,
+        email: student.email,
+        rank: student.rank,
+        unit: student.unit,
+        enlistmentDate: student.enlistmentDate ? student.enlistmentDate.split('T')[0] : '',
+        batch: student.batch,
+      });
+    } catch (err) {
+      alert("Failed to load student data");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -32,6 +54,8 @@ const EditStudent = () => {
     }
   };
 
+  if (loading) return <div>Loading student data...</div>;
+
   return (
     <div>
       <h1 className="text-2xl font-bold mb-6">Edit Student</h1>
@@ -40,17 +64,25 @@ const EditStudent = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-6 rounded shadow space-y-4 max-w-xl"
       >
-        <input {...register("firstName")} className="border p-2 rounded w-full" />
-        <input {...register("lastName")} className="border p-2 rounded w-full" />
-        <input {...register("rank")} className="border p-2 rounded w-full" />
-        <input {...register("batch")} className="border p-2 rounded w-full" />
-        <input {...register("unit")} className="border p-2 rounded w-full" />
-        <input {...register("phone")} className="border p-2 rounded w-full" />
-        <input {...register("email")} className="border p-2 rounded w-full" />
+        <input {...register("firstName")} placeholder="First Name" className="border p-2 rounded w-full" />
+        <input {...register("lastName")} placeholder="Last Name" className="border p-2 rounded w-full" />
+        <input {...register("gender")} placeholder="Gender" className="border p-2 rounded w-full" />
+        <input type="date" {...register("dateOfBirth")} className="border p-2 rounded w-full" />
+        <input {...register("stateOfOrigin")} placeholder="State of Origin" className="border p-2 rounded w-full" />
+        <input {...register("lga")} placeholder="LGA" className="border p-2 rounded w-full" />
+        <input {...register("nationality")} placeholder="Nationality" className="border p-2 rounded w-full" />
+        <input {...register("maritalStatus")} placeholder="Marital Status" className="border p-2 rounded w-full" />
+        <input {...register("address")} placeholder="Address" className="border p-2 rounded w-full" />
+        <input {...register("phone")} placeholder="Phone" className="border p-2 rounded w-full" />
+        <input {...register("email")} placeholder="Email" className="border p-2 rounded w-full" />
+        <input {...register("rank")} placeholder="Rank" className="border p-2 rounded w-full" />
+        <input {...register("unit")} placeholder="Unit" className="border p-2 rounded w-full" />
+        <input type="date" {...register("enlistmentDate")} className="border p-2 rounded w-full" />
+        <input {...register("batch")} placeholder="Batch" className="border p-2 rounded w-full" />
 
         <button
           type="submit"
-          className="bg-gray-900 text-white px-6 py-2 rounded hover:bg-gray-800"
+          className="bg-gray-900 text-white px-6 py-2 rounded hover:bg-gray-800 w-full"
         >
           Update Student
         </button>
