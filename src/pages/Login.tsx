@@ -2,7 +2,7 @@
 import { useForm } from "react-hook-form";
 import api from "../api/axios";
 import { useAuth } from "../context/AuthContext";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface LoginForm {
   serviceNumber: string;
@@ -12,7 +12,7 @@ interface LoginForm {
 const Login = () => {
   const { register, handleSubmit } = useForm<LoginForm>();
   const { login } = useAuth();
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const onSubmit = async (data: LoginForm) => {
     try {
