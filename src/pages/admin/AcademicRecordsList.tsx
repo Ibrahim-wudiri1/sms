@@ -12,7 +12,7 @@ interface Record {
     user: { serviceNumber: string };
   };
   enrollment: {
-    course: { name: string; code: string };
+    course: { title: string; code: string };
   };
 }
 
@@ -25,6 +25,7 @@ const AcademicRecordsList = () => {
 
   const fetchRecords = async () => {
     const res = await api.get("/admin/academic-records");
+    console.log("Academic Records: ", res.data);
     setRecords(res.data);
   };
 
@@ -51,7 +52,7 @@ const AcademicRecordsList = () => {
                   {r.student.firstName} {r.student.lastName}
                 </td>
                 <td className="p-3">
-                  {r.enrollment.course.code} - {r.enrollment.course.name}
+                  {r.enrollment.course.code} - {r.enrollment.course.title}
                 </td>
                 <td className="p-3">{r.score}</td>
                 <td className="p-3">{r.grade}</td>
