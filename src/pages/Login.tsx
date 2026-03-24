@@ -34,7 +34,7 @@ const Login = () => {
     <div className="min-h-screen flex items-center justify-center bg-gray-200">
       <div className="bg-white p-8 rounded shadow-md w-96">
         <h2 className="text-2xl font-bold mb-6 text-center">
-          Military Police School
+          Nigerian Army School of Military Police
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
