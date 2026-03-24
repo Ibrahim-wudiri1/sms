@@ -6,12 +6,13 @@ interface Record {
   score: number;
   grade: string;
   remarks: string;
-  student: {
-    firstName: string;
-    lastName: string;
-    user: { serviceNumber: string };
-  };
+  
   enrollment: {
+    student: {
+      firstName: string;
+      lastName: string;
+      user: { serviceNumber: string };
+    };
     course: { title: string; code: string };
   };
 }
@@ -47,9 +48,9 @@ const AcademicRecordsList = () => {
           <tbody>
             {records.map((r) => (
               <tr key={r.id} className="border-b hover:bg-gray-100">
-                <td className="p-3">{r.student.user.serviceNumber}</td>
+                <td className="p-3">{r.enrollment.student.user.serviceNumber}</td>
                 <td className="p-3">
-                  {r.student.firstName} {r.student.lastName}
+                  {r.enrollment.student.firstName} {r.enrollment.student.lastName}
                 </td>
                 <td className="p-3">
                   {r.enrollment.course.code} - {r.enrollment.course.title}
