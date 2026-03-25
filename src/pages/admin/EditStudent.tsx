@@ -24,7 +24,6 @@ const EditStudent = () => {
         firstName: student.firstName || "",
         lastName: student.lastName || "",
         gender: student.gender || "",
-        dateOfBirth: student.dateOfBirth ? student.dateOfBirth.split("T")[0] : "",
         stateOfOrigin: student.stateOfOrigin || "",
         lga: student.lga || "",
         nationality: student.nationality || "",
@@ -64,20 +63,21 @@ const EditStudent = () => {
         onSubmit={handleSubmit(onSubmit)}
         className="bg-white p-6 rounded shadow space-y-4 max-w-xl"
       >
+      <div className="grid grid-cols-2 gap-4"> 
         <input {...register("serviceNumber")} placeholder="Service Number" className="border p-2 rounded w-full" />
         <input {...register("firstName")} placeholder="First Name" className="border p-2 rounded w-full" />
         <input {...register("lastName")} placeholder="Last Name" className="border p-2 rounded w-full" />
         <input {...register("rank")} placeholder="Rank" className="border p-2 rounded w-full" />
         <input {...register("unit")} placeholder="Unit" className="border p-2 rounded w-full" />
 
-        <input {...register("gender")} placeholder="Gender" className="border p-2 rounded w-full" />
-       <input {...register("nationality")} placeholder="Nationality" className="border p-2 rounded w-full" />
+        {/* <input {...register("gender")} placeholder="Gender" className="border p-2 rounded w-full" /> */}
+       {/* <input {...register("nationality")} placeholder="Nationality" className="border p-2 rounded w-full" /> */}
         <input {...register("maritalStatus")} placeholder="Services" className="border p-2 rounded w-full" />
         <input {...register("address")} placeholder="Corps" className="border p-2 rounded w-full" />
         <input {...register("phone")} placeholder="Phone" className="border p-2 rounded w-full" />
         <input {...register("email")} placeholder="Email" className="border p-2 rounded w-full" />
-        <input {...register("batch")} placeholder="Quarter" className="border p-2 rounded w-full" />
-
+        {/* <input {...register("batch")} placeholder="Quarter" className="border p-2 rounded w-full" /> */}
+      </div>
         <button
           type="submit"
           className="bg-gray-900 text-white px-6 py-2 rounded hover:bg-gray-800 w-full"

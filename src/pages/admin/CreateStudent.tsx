@@ -109,9 +109,9 @@ const CreateStudent = () => {
             <option value="Other">Other</option>
           </select>
           {/* <input {...register("gender", { required: true })} placeholder="Gender" className="border p-2 rounded" /> */}
-          <input type="date" {...register("dateOfBirth", { required: true })} className="border p-2 rounded" />
+          {/* <input type="date" {...register("dateOfBirth", { required: true })} className="border p-2 rounded" />
           <input {...register("stateOfOrigin", { required: true })} placeholder="State of Origin" className="border p-2 rounded" />
-          <input {...register("lga", { required: true })} placeholder="LGA" className="border p-2 rounded" />
+          <input {...register("lga", { required: true })} placeholder="LGA" className="border p-2 rounded" /> */}
             </div>
 
         {/* Photo Upload */}
