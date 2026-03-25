@@ -39,7 +39,6 @@ const CreateStudent = () => {
     formData.append("firstName", data.firstName || "");
     formData.append("lastName", data.lastName || "");
     formData.append("gender", data.gender || "");
-    formData.append("dateOfBirth", data.dateOfBirth || "");
     formData.append("stateOfOrigin", data.stateOfOrigin || "");
     formData.append("lga", data.lga || "");
     formData.append("nationality", data.nationality || "");
