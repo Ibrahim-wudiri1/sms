@@ -55,7 +55,9 @@ const StudentsList = () => {
     if (!window.confirm("Delete this student?")) return;
 
     try {
-      await api.delete(`/admin/students/${id}`);
+      const res = await api.delete(`/admin/students/${id}`);
+      console.log("Delete response:", res.data);
+      alert(res.data.message ||"Student deleted successfully");
       fetchStudents();
     } catch (err: any) {
       alert(err.response?.data?.message || "Delete failed");

@@ -15,6 +15,8 @@ import EditStudent from "./pages/admin/EditStudent";
 import AddAcademicRecord from "./pages/admin/AddAcademicRecord";
 import AcademicRecordsList from "./pages/admin/AcademicRecordsList";
 import AcademicRecords from "./pages/student/AcademicRecords";
+import CourseStudents from "./pages/admin/CourseStudents";
+import StudentDetails from "./pages/admin/StudentDetails";
 
 import Login from "./pages/Login";
 
@@ -45,6 +47,8 @@ const App = () => {
             <Route path="edit-student/:id" element={<EditStudent />} />
             <Route path="academic-records/add" element={<AddAcademicRecord />} />
             <Route path="academic-records" element={<AcademicRecordsList />} />
+            <Route path="course/:id/students" element={<CourseStudents />} />
+            <Route path="student/:id/details" element={<StudentDetails />} />
           </Route>
 
           <Route
