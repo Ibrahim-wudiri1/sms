@@ -70,7 +70,7 @@ const StudentDetails = () => {
         <h3 className="font-bold mb-2">Academic Records</h3>
         {data.enrollments.map((r: any) => (
           <div key={r.id}>
-            {r.course.code} - ({r.academicRecords.score} - {r.academicRecords.grade})
+            {r.course.code} - ({r.academicRecords[0].score} - {r.academicRecords[0].grade})
           </div>
         ))}
       </div>
