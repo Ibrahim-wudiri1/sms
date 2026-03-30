@@ -75,7 +75,7 @@ const CreateCourse = () => {
           type="submit"
           className="bg-gray-900 text-white px-6 py-2 rounded hover:bg-gray-800"
         >
-          Create Course
+          Add Course
         </button>
       </form>
     </div>

@@ -18,6 +18,7 @@ const Login = () => {
     try {
       const res = await api.post("/auth/login", data);
 
+      localStorage.setItem("user", JSON.stringify(res.data));
       login(res.data.accessToken, res.data.role);
 
       if (res.data.role === "ADMIN") {
