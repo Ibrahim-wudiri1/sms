@@ -112,11 +112,11 @@ const StudentsList = () => {
                 <td className="p-3 space-x-2">
                   <button
                     onClick={() =>
-                      navigate(`/admin/edit-student/${student.id}`)
+                      navigate(`/admin/view-student/${student.id}`)
                     }
                     className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
                   >
-                    Edit
+                    View
                   </button>
                   <button
                     onClick={() => deleteStudent(student.id)}
