@@ -18,6 +18,7 @@ import AcademicRecords from "./pages/student/AcademicRecords";
 import CourseStudents from "./pages/admin/CourseStudents";
 import StudentDetails from "./pages/admin/StudentDetails";
 import FullStudentDetails from "./pages/admin/FullStudentDetails";
+import  ExamOfficerPage from "./pages/admin/examOfficer/ExamOfficerPage";
 
 import Login from "./pages/Login";
 
@@ -51,6 +52,7 @@ const App = () => {
             <Route path="course/:id/students" element={<CourseStudents />} />
             <Route path="student/:id/details" element={<StudentDetails />} />
             <Route path="view-student/:id" element={<FullStudentDetails />} />
+            <Route path="exam-officers" element={<ExamOfficerPage />} />
             
           </Route>
 

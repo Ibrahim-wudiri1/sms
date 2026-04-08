@@ -1,127 +1,107 @@
-// // src/pages/student/Profile.tsx
-// import { useEffect, useState } from "react";
-// import { useForm } from "react-hook-form";
-// import api from "../../../api/axios";
+import { useEffect, useState } from "react";
+import api from "../../../api/axios";
+import ExamOfficerModal from "./AddEditModal";
+// import AddExamOfficer from "./AddExamOfficer";
 
-// interface AdminRegister {
-//   serviceNumber: string;
-//   password: string;
-//   role: string;
-// }
+const ExamOfficers = () => {
+  const [officers, setOfficers] = useState<any[]>([]);
+  const [showModal, setShowModal] = useState(false);
+  const [selected, setSelected] = useState<any>(null);
+  const [isActive, setIsActive] = useState(true);
 
-// interface AdminData {
-//   serviceNumber: string;
-//   password: string;
-//   role: string;
-//   isActive: boolean;
-// }
+  useEffect(() => {
+    fetchOfficers();
+  }, []);
 
+  const fetchOfficers = async () => {
+    const res = await api.get("/admin/exam-officers");
+    setOfficers(res.data);
+  };
 
-// const Profile = () => {
-//  const { register, handleSubmit } = useForm<AdminRegister>();
-//   const [admin, setAdmin] = useState<AdminData[]>([]);
+  const handleEdit = (officer: any) => {
+    setSelected(officer);
+    setShowModal(true);
+  };
 
-//   useEffect(() => {
-//     fetchAdmin();
-//   }, []);
+  const handleCreate = () => {
+    setSelected(null);
+    setShowModal(true);
+  };
 
-//   const fetchAdmin = async () => {
-//     const res = await api.get("/admin/create-admin");
-//     console.log("Fetched Admin: ", res.data);
-//     setAdmin(res.data);
-//   };
+  const deactivate = async (id: number, data: any ) => {
+    const officer = officers.find((o) => o.id === id);
+    try{
+      if (!confirm(`${officer?.isActive === true ? "Deactivate ": "Activate "} this officer?`)) return;
 
+      await api.patch(`/admin/exam-officer/${id}`, data);
 
+      fetchOfficers();
+    } catch(err: any){
+      console.log("Error Deactivate User: ", err.message);
+      alert("Fail to deactivate User");
+    }
+    
+  };
 
-//   const onSubmit = async (data: AdminRegister) => {
-//     try {
-//       // console.log("Enrollment Data: ", data);
-//       await api.post("/admin/create-admin", data);
-//       alert("Admin/Exam officer added successful");
-//     } catch (err: any) {
-//       console.log("Error: ", err.response?.data?.message);
-//       alert(err.response?.data?.message || "Enrollment failed");
-//     }
-//   };
+  return (
+    <div>
+      <h1 className="text-2xl font-bold mb-6">Exam Officers</h1>
 
-//   if (!admin) return <div>Loading...</div>;
+      <button
+        onClick={handleCreate}
+        className="bg-gray-900 text-white px-4 py-2 rounded mb-4"
+      >
+        + Add Exam Officer
+      </button>
 
+      <table className="w-full bg-white shadow rounded">
+        <thead className="bg-gray-900 text-white">
+          <tr>
+            <th className="p-3">Service No</th>
+            <th className="p-3">Status</th>
+            <th className="p-3">Action</th>
+          </tr>
+        </thead>
 
-//   return (
-//     <div className="space-y-6">
-//       {/* Personal Info */}
-//       <div className="bg-white shadow rounded p-6 flex items-center gap-6">
-//         <div>
-//           <h2 className="text-2xl font-bold">
-//             {admin.serviceNumber} {admin.role}
-//           </h2>
-         
-//         </div>
-//       </div>
+        <tbody>
+          {officers.map((o) => (
+            <tr key={o.id} className="border-b">
+              <td className="p-4">{o.serviceNumber}</td>
+              <td className="p-4">
+                &nbsp;{o.isActive ? "ACTIVE" : "INACTIVE"}
+              </td>
+              <td className="p-4 space-x-2">
+                <button
+                  onClick={() => handleEdit(o)}
+                  className="bg-blue-600 text-white px-2 py-1 rounded"
+                >
+                  Edit
+                </button>
 
-//       {/* Current Enrollment */}
-//       <div className="bg-white shadow rounded p-6">
-//         <h3 className="text-xl font-bold mb-4">Current Enrollment</h3>
-//         {activeEnrollment ? (
-//           <div className="space-y-2">
-//             <p>
-//               <strong>Course:</strong> {activeEnrollment.course.code} -{" "}
-//               {activeEnrollment.course.title}
-//             </p>
-//             <p>
-//               <strong>Status:</strong>{" "}
-//               <span
-//                 className={`px-2 py-1 rounded text-sm ${
-//                   activeEnrollment.status === "ACTIVE"
-//                     ? "bg-green-100 text-green-700"
-//                     : "bg-red-100 text-red-700"
-//                 }`}
-//               >
-//                 {activeEnrollment.status}
-//               </span>
-//             </p>
-//             <p>
-//               <strong>Enrolled On:</strong>{" "}
-//               {new Date(activeEnrollment.createdAt).toLocaleDateString()}
-//             </p>
-//           </div>
-//         ) : (
-//           <p>No active enrollment</p>
-//         )}
-//       </div>
+                <button
+                  onClick={() => {
+                     setIsActive(!isActive);
+                     deactivate(o.id, {isActive})}
+                  }
+                  className="bg-red-600 text-white px-2 py-1 rounded"
+                >
+                  {o.isActive === true? "Deactivate": "Activate"}
+                </button>
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
 
-//       {/* Past Enrollments */}
-//       <div className="bg-white shadow rounded p-6">
-//         <h3 className="text-xl font-bold mb-4">Past Enrollments</h3>
-//         {profile.enrollments.length === 0 ? (
-//           <p>No past enrollments</p>
-//         ) : (
-//           <table className="w-full border">
-//             <thead className="bg-gray-900 text-white">
-//               <tr>
-//                 <th className="p-2 text-left">Course</th>
-//                 <th className="p-2 text-left">Status</th>
-//                 <th className="p-2 text-left">Enrolled On</th>
-//               </tr>
-//             </thead>
-//             <tbody>
-//               {profile.enrollments.map((enrollment) => (
-//                 <tr key={enrollment.id} className="border-b hover:bg-gray-100">
-//                   <td className="p-2">
-//                     {enrollment.course.code} - {enrollment.course.title}
-//                   </td>
-//                   <td className="p-2">{enrollment.status}</td>
-//                   <td className="p-2">
-//                     {new Date(enrollment.createdAt).toLocaleDateString()}
-//                   </td>
-//                 </tr>
-//               ))}
-//             </tbody>
-//           </table>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
+      {showModal && (
+        <ExamOfficerModal
+          officer={selected}
+          onClose={() => setShowModal(false)}
+          onSaved={fetchOfficers}
+        />
+      )}
+    </div>
+  );
+};
 
-// export default Profile;
+export default ExamOfficers;
