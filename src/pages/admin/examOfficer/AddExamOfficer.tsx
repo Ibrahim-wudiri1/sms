@@ -1,5 +1,5 @@
 // src/pages/admin/EnrollStudent.tsx
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import api from "../../../api/axios";
 
@@ -9,12 +9,12 @@ interface AdminRegister {
   role: string;
 }
 
-interface AdminData {
-  serviceNumber: string;
-  password: string;
-  role: string;
-  isActive: boolean;
-}
+// interface AdminData {
+//   serviceNumber: string;
+//   password: string;
+//   role: string;
+//   isActive: boolean;
+// }
 
 const AddExamOfficer = () => {
   const { register, handleSubmit } = useForm<AdminRegister>();
