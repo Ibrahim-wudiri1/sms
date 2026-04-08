@@ -18,7 +18,6 @@ interface AdminData {
 
 const AddExamOfficer = () => {
   const { register, handleSubmit } = useForm<AdminRegister>();
-  const [admin, setAdmin] = useState<AdminData[]>([]);
 
   useEffect(() => {
     fetchAdmin();
@@ -27,7 +26,6 @@ const AddExamOfficer = () => {
   const fetchAdmin = async () => {
     const res = await api.get("/admin/create-admin");
     console.log("Fetched Admin: ", res.data);
-    setAdmin(res.data);
   };
 
 
