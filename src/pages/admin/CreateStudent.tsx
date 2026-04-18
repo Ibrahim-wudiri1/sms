@@ -88,12 +88,12 @@ const CreateStudent = () => {
         <div className="grid grid-cols-2 gap-4">
           <input {...register("rank", { required: true })} placeholder="Rank" className="border p-2 rounded" />
           <input {...register("firstName", { required: true })} placeholder="First Name" className="border p-2 rounded" />
-          <input {...register("lastName", { required: true })} placeholder="Last Name" className="border p-2 rounded" />
+          <input {...register("lastName", { required: true })} placeholder="Surname" className="border p-2 rounded" />
           
           <input {...register("serviceNumber", { required: true })} placeholder="Service Number" className="border p-2 rounded" />
           <input type="password" {...register("password", { required: true })} placeholder="Password" className="border p-2 rounded" />
           <input {...register("unit", { required: true })} placeholder="Unit" className="border p-2 rounded" />
-          <input {...register("address", { required: true })} placeholder="Corp" className="border p-2 rounded" />
+          <input {...register("address", { required: true })} placeholder="Corps" className="border p-2 rounded" />
           <input {...register("maritalStatus", { required: true })} placeholder="Services e.g Army, Navy..." className="border p-2 rounded" />
           <input {...register("phone", { required: true })} placeholder="Phone" className="border p-2 rounded" />
           <input {...register("email", { required: true })} placeholder="Email" className="border p-2 rounded" />

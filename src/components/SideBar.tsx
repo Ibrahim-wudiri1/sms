@@ -12,13 +12,13 @@ const SideBar = () => {
 
   const Admin = [
     { name: "Students", path: "/admin/students", icon: <Users size={18} /> },
-    { name: "Create Student", path: "/admin/create-student", icon: <UserPlus size={18} /> },
-    { name: "Create Course", path: "/admin/create-course", icon: <BookOpen size={18} /> },
-    { name: "Courses", path: "/admin/courses", icon: <BookOpen size={18} /> },
     { name: "Enroll Student", path: "/admin/enroll", icon: <UserPlus size={18} /> },
     { name: "Enrollments", path: "/admin/enrollments", icon: <Users size={18} /> },
     { name: "Add Academic Record", path: "/admin/academic-records/add", icon: <BookOpen size={18} /> },
     { name: "Academic Records", path: "/admin/academic-records", icon: <BookOpen size={18} /> },
+    // { name: "Create Student", path: "/admin/create-student", icon: <UserPlus size={18} /> },
+    { name: "Create Course", path: "/admin/create-course", icon: <BookOpen size={18} /> },
+    { name: "Courses", path: "/admin/courses", icon: <BookOpen size={18} /> },
     { name: "Exam Officers", path: "/admin/exam-officers", icon: <UserPlus size={18} /> },
   ];
 
