@@ -132,7 +132,7 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
               disabled={loading}
             />
             {errors.serviceNumber && (
-              <p className="text-red-600 text-xs mt-1">{errors.serviceNumber.message}</p>
+              <p className="text-red-600 text-xs mt-1">{errors.serviceNumber.message as string}</p>
             )}
           </div>
 
@@ -152,7 +152,7 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
               disabled={loading}
             />
             {errors.firstName && (
-              <p className="text-red-600 text-xs mt-1">{errors.firstName.message}</p>
+              <p className="text-red-600 text-xs mt-1">{errors.firstName.message as string}</p>
             )}
           </div>
 
@@ -172,7 +172,7 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
               disabled={loading}
             />
             {errors.lastName && (
-              <p className="text-red-600 text-xs mt-1">{errors.lastName.message}</p>
+              <p className="text-red-600 text-xs mt-1">{errors.lastName.message as string}</p>
             )}
           </div>
 
@@ -247,7 +247,7 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
               disabled={loading}
             />
             {errors.phone && (
-              <p className="text-red-600 text-xs mt-1">{errors.phone.message}</p>
+              <p className="text-red-600 text-xs mt-1">{errors.phone.message as string}</p>
             )}
           </div>
 
@@ -268,7 +268,7 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
               disabled={loading}
             />
             {errors.email && (
-              <p className="text-red-600 text-xs mt-1">{errors.email.message}</p>
+              <p className="text-red-600 text-xs mt-1">{errors.email.message as string}</p>
             )}
           </div>
         </div>
