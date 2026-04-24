@@ -2,12 +2,14 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import api from "../../api/axios";
+import EditCourseModal from "./modals/EditCourseModal";
 
 interface Course {
   id: number;
   title: string;
   code: string;
   duration: number;
+  description?: string;
   createdAt: string;
 }
 
@@ -15,6 +17,7 @@ const CoursesList = () => {
   const [courses, setCourses] = useState<Course[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [editingCourse, setEditingCourse] = useState<Course | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -89,12 +92,20 @@ const CoursesList = () => {
                   </td>
 
                   <td className="p-4">
-                    <button
-                      onClick={() => navigate(`/admin/course/${course.id}/students`)}
-                      className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
-                    >
-                      View Students
-                    </button>
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => setEditingCourse(course)}
+                        className="bg-yellow-500 text-white px-3 py-1 rounded-md hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-yellow-500 text-sm"
+                      >
+                        ✎ Edit
+                      </button>
+                      <button
+                        onClick={() => navigate(`/admin/course/${course.id}/students`)}
+                        className="bg-blue-600 text-white px-3 py-1 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-sm"
+                      >
+                        View Students
+                      </button>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -107,6 +118,15 @@ const CoursesList = () => {
             </div>
           )}
         </div>
+      )}
+
+      {/* Edit Course Modal */}
+      {editingCourse && (
+        <EditCourseModal
+          course={editingCourse}
+          onClose={() => setEditingCourse(null)}
+          onSaved={fetchCourses}
+        />
       )}
     </div>
   );

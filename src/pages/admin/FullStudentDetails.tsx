@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import api from "../../api/axios";
 
 import EditStudentModal from "./modals/EditStudentModal";
+import CertificateUpload from "./modals/CertificateUpload";
 // import EditStudent from "./EditStudent";
 
 const FullStudentDetails = () => {
@@ -10,8 +11,10 @@ const FullStudentDetails = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>(null);
   const [showEdit, setShowEdit] = useState(false);
+  const [showCertificateUpload, setShowCertificateUpload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingEnrollment, setLoadingEnrollment] = useState<number | null>(null);
+  const [certificates, setCertificates] = useState<{ [key: number]: any }>({});
   const [feedback, setFeedback] = useState<{
     type: "success" | "error" | "info";
     message: string;
@@ -35,6 +38,19 @@ const FullStudentDetails = () => {
       const res = await api.get(`/admin/student/${id}/details`);
       console.log("Student Data: ", res.data);
       setData(res.data);
+
+      // Fetch certificates for all enrollments
+      const certificateMap: { [key: number]: any } = {};
+      for (const enrollment of res.data.enrollments) {
+        try {
+          const certRes = await api.get(`/admin/enrollments/${enrollment.id}/certificate`);
+          certificateMap[enrollment.id] = certRes.data;
+        } catch (certErr) {
+          // Certificate might not exist yet, which is fine
+          certificateMap[enrollment.id] = null;
+        }
+      }
+      setCertificates(certificateMap);
     } catch (error: any) {
       console.error("Error fetching student details:", error);
       setFeedback({
@@ -59,6 +75,18 @@ const FullStudentDetails = () => {
             message: "Cannot mark course as completed. No academic record found for this course. Please add an academic record first.",
           });
           setLoadingEnrollment(null);
+          return;
+        }
+
+        // Check if certificate is uploaded
+        const certificate = certificates[enrollmentId];
+        if (!certificate || !certificate.fileUrl) {
+          setFeedback({
+            type: "error",
+            message: "Cannot mark course as completed. Certificate must be uploaded first. Please upload the certificate below.",
+          });
+          setLoadingEnrollment(null);
+          setShowCertificateUpload(true);
           return;
         }
       }
@@ -179,35 +207,57 @@ const FullStudentDetails = () => {
         <h2 className="text-2xl font-bold mb-4 text-gray-800">Current Course</h2>
 
         {activeEnrollment ? (
-          <div className="border-2 border-purple-200 bg-purple-50 p-5 rounded-lg flex justify-between items-center">
-            <div>
-              <p className="font-bold text-lg text-gray-800">
-                {activeEnrollment.course.code} - {activeEnrollment.course.name}
-              </p>
-              <p className="text-sm text-gray-600 mt-1">
-                Status: <span className="font-semibold text-purple-600">{activeEnrollment.status}</span>
-              </p>
-              <p className="text-xs text-gray-500 mt-1">
-                Started: {new Date(activeEnrollment.startedAt).toLocaleDateString()}
-              </p>
+          <div className="border-2 border-purple-200 bg-purple-50 p-5 rounded-lg space-y-4">
+            <div className="flex justify-between items-start">
+              <div>
+                <p className="font-bold text-lg text-gray-800">
+                  {activeEnrollment.course.code} - {activeEnrollment.course.name}
+                </p>
+                <p className="text-sm text-gray-600 mt-1">
+                  Status: <span className="font-semibold text-purple-600">{activeEnrollment.status}</span>
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Started: {new Date(activeEnrollment.startedAt).toLocaleDateString()}
+                </p>
+              </div>
+
+              <div className="space-x-2">
+                <button
+                  onClick={() => updateStatus(activeEnrollment.id, "COMPLETED")}
+                  disabled={loadingEnrollment === activeEnrollment.id}
+                  className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 transition text-white px-4 py-2 rounded-lg font-semibold shadow-md"
+                >
+                  {loadingEnrollment === activeEnrollment.id ? "Processing..." : "✓ Mark Completed"}
+                </button>
+
+                <button
+                  onClick={() => updateStatus(activeEnrollment.id, "RTU")}
+                  disabled={loadingEnrollment === activeEnrollment.id}
+                  className="bg-red-600 hover:bg-red-700 disabled:bg-gray-400 transition text-white px-4 py-2 rounded-lg font-semibold shadow-md"
+                >
+                  {loadingEnrollment === activeEnrollment.id ? "Processing..." : "↶ Mark RTU"}
+                </button>
+              </div>
             </div>
 
-            <div className="space-x-2">
-              <button
-                onClick={() => updateStatus(activeEnrollment.id, "COMPLETED")}
-                disabled={loadingEnrollment === activeEnrollment.id}
-                className="bg-blue-600 hover:bg-blue-700 disabled:bg-gray-400 transition text-white px-4 py-2 rounded-lg font-semibold shadow-md"
-              >
-                {loadingEnrollment === activeEnrollment.id ? "Processing..." : "✓ Mark Completed"}
-              </button>
-
-              <button
-                onClick={() => updateStatus(activeEnrollment.id, "RTU")}
-                disabled={loadingEnrollment === activeEnrollment.id}
-                className="bg-red-600 hover:bg-red-700 disabled:bg-gray-400 transition text-white px-4 py-2 rounded-lg font-semibold shadow-md"
-              >
-                {loadingEnrollment === activeEnrollment.id ? "Processing..." : "↶ Mark RTU"}
-              </button>
+            {/* Certificate Upload Section */}
+            <div className="border-t-2 border-purple-200 pt-4 mt-4">
+              <h3 className="font-bold text-gray-800 mb-3">📄 Certificate</h3>
+              <CertificateUpload
+                enrollmentId={activeEnrollment.id}
+                certificateUrl={certificates[activeEnrollment.id]?.fileUrl}
+                onUploadSuccess={(fileUrl, fileName) => {
+                  // Update certificates state
+                  setCertificates(prev => ({
+                    ...prev,
+                    [activeEnrollment.id]: { fileUrl, fileName }
+                  }));
+                  setFeedback({
+                    type: "success",
+                    message: "Certificate uploaded successfully! You can now mark the course as completed."
+                  });
+                }}
+              />
             </div>
           </div>
         ) : (

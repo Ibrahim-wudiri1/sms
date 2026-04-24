@@ -179,10 +179,12 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
           {/* Rank */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Rank
+              Rank <span className="text-red-500">*</span>
             </label>
             <input
-              {...register("rank")}
+              {...register("rank", {
+                required: "Rank is required",
+              })}
               placeholder="Enter rank"
               className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={loading}
@@ -192,10 +194,12 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
           {/* Unit */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Unit
+              Unit <span className="text-red-500">*</span>
             </label>
             <input
-              {...register("unit")}
+              {...register("unit", {
+                required: "Unit is required",
+              })}
               placeholder="Enter unit"
               className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={loading}
@@ -205,11 +209,13 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
           {/* Marital Status */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Services / Marital Status
+              Services <span className="text-red-500">*</span>
             </label>
             <input
-              {...register("maritalStatus")}
-              placeholder="Enter services"
+              {...register("maritalStatus", {
+                required: "Services is required",
+              })}
+              placeholder="Enter services e.g Army, Navy..."
               className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={loading}
             />
@@ -218,11 +224,13 @@ const EditStudentModal = ({ student, onClose, onSaved }: any) => {
           {/* Address */}
           <div>
             <label className="block text-sm font-semibold text-gray-700 mb-2">
-              Address / Corps
+              Corps <span className="text-red-500">*</span>
             </label>
             <input
-              {...register("address")}
-              placeholder="Enter address"
+              {...register("address", {
+                required: "Corps is required",
+              })}
+              placeholder="Enter corps"
               className="border border-gray-300 rounded-lg p-3 w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               disabled={loading}
             />

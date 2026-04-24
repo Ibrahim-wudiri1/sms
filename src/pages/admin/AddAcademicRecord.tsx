@@ -136,9 +136,9 @@ const AddAcademicRecord = () => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Score *</label>
           <input
-            type="number"
+            type="text"
             {...register("score", { required: "Score is required", min: { value: 0, message: "Score must be at least 0" }, max: { value: 100, message: "Score cannot exceed 100" } })}
-            placeholder="Score (0-100)"
+            placeholder="Score (0.00-100)"
             className={`w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 ${
               errors.score ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
             }`}
