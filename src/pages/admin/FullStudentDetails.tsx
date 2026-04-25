@@ -11,7 +11,7 @@ const FullStudentDetails = () => {
   const navigate = useNavigate();
   const [data, setData] = useState<any>(null);
   const [showEdit, setShowEdit] = useState(false);
-  const [showCertificateUpload, setShowCertificateUpload] = useState(false);
+  // const [showCertificateUpload, setShowCertificateUpload] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingEnrollment, setLoadingEnrollment] = useState<number | null>(null);
   const [certificates, setCertificates] = useState<{ [key: number]: any }>({});
@@ -86,7 +86,7 @@ const FullStudentDetails = () => {
             message: "Cannot mark course as completed. Certificate must be uploaded first. Please upload the certificate below.",
           });
           setLoadingEnrollment(null);
-          setShowCertificateUpload(true);
+          // setShowCertificateUpload(true);
           return;
         }
       }
