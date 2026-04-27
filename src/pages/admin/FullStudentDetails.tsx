@@ -278,6 +278,7 @@ const FullStudentDetails = () => {
                   <th className="p-3 text-left">Score</th>
                   <th className="p-3 text-left">Grade</th>
                   <th className="p-3 text-left">Status</th>
+                  <th className="p-3 text-left">Certificate</th>
                   <th className="p-3 text-left">Completed Date</th>
                 </tr>
               </thead>
@@ -288,6 +289,20 @@ const FullStudentDetails = () => {
                     <td className="p-3">{c.record?.score || "-"}</td>
                     <td className="p-3"><span className="bg-blue-100 text-blue-800 px-2 py-1 rounded">{c.record?.grade || "-"}</span></td>
                     <td className="p-3">{c.status || "-"}</td>
+                    <td className="p-3">
+                      {certificates[c.id]?.fileUrl ? (
+                        <a
+                          href={certificates[c.id].fileUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-blue-600 hover:underline"
+                        >
+                          View Certificate
+                        </a>
+                      ) : (
+                        <span className="text-sm text-gray-500">No certificate</span>
+                      )}
+                    </td>
                     <td className="p-3">
                       {c.completedAt ? new Date(c.completedAt).toLocaleDateString() : "-"}
                     </td>
