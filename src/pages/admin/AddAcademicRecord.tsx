@@ -35,7 +35,7 @@ const AddAcademicRecord = () => {
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [loading, setLoading] = useState(false);
   const [feedback, setFeedback] = useState<{ type: "success" | "error" | "warning"; message: string } | null>(null);
-  const [invalidStudentId, setInvalidStudentId] = useState(false);
+  // const [invalidStudentId, setInvalidStudentId] = useState(false);
 
   const selectedStudentId = watch("studentId");
 
@@ -53,10 +53,10 @@ const AddAcademicRecord = () => {
     if (defaultStudentId && students.length > 0) {
       const studentExists = students.some(s => s.id === defaultStudentId);
       if (!studentExists) {
-        setInvalidStudentId(true);
+        // setInvalidStudentId(true);
         setFeedback({ type: "warning", message: `Student ID ${defaultStudentId} not found. Please select a valid student.` });
       } else {
-        setInvalidStudentId(false);
+        // setInvalidStudentId(false);
       }
     }
   }, [defaultStudentId, students]);
