@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import api from "../../api/axios";
 
@@ -23,15 +24,42 @@ interface FormData {
 }
 
 const AddAcademicRecord = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm<FormData>();
+  const [searchParams] = useSearchParams();
+  const defaultStudentId = searchParams.get("studentId") ? Number(searchParams.get("studentId")) : undefined;
+  const { register, handleSubmit, formState: { errors }, watch, setValue } = useForm<FormData>({
+    defaultValues: {
+      studentId: defaultStudentId,
+    },
+  });
   const [students, setStudents] = useState<Student[]>([]);
   const [enrollments, setEnrollments] = useState<Enrollment[]>([]);
   const [loading, setLoading] = useState(false);
-  const [feedback, setFeedback] = useState<{ type: "success" | "error"; message: string } | null>(null);
+  const [feedback, setFeedback] = useState<{ type: "success" | "error" | "warning"; message: string } | null>(null);
+  const [invalidStudentId, setInvalidStudentId] = useState(false);
+
+  const selectedStudentId = watch("studentId");
 
   useEffect(() => {
     fetchStudents();
   }, []);
+
+  useEffect(() => {
+    if (selectedStudentId) {
+      fetchEnrollments(selectedStudentId);
+    }
+  }, [selectedStudentId]);
+
+  useEffect(() => {
+    if (defaultStudentId && students.length > 0) {
+      const studentExists = students.some(s => s.id === defaultStudentId);
+      if (!studentExists) {
+        setInvalidStudentId(true);
+        setFeedback({ type: "warning", message: `Student ID ${defaultStudentId} not found. Please select a valid student.` });
+      } else {
+        setInvalidStudentId(false);
+      }
+    }
+  }, [defaultStudentId, students]);
 
   const fetchStudents = async () => {
     try {
@@ -76,7 +104,9 @@ const AddAcademicRecord = () => {
           className={`p-4 rounded mb-6 border-l-4 ${
             feedback.type === "success"
               ? "bg-green-50 border-green-500 text-green-800"
-              : "bg-red-50 border-red-500 text-red-800"
+              : feedback.type === "error"
+              ? "bg-red-50 border-red-500 text-red-800"
+              : "bg-yellow-50 border-yellow-500 text-yellow-800"
           }`}
         >
           {feedback.message}
@@ -91,12 +121,19 @@ const AddAcademicRecord = () => {
         <div>
           <label className="block text-sm font-medium text-gray-700 mb-1">Select Student *</label>
           <select
-            {...register("studentId", { required: "Please select a student" })}
+              {...register("studentId", { required: "Please select a student" })}
             className={`w-full border px-3 py-2 rounded-md focus:outline-none focus:ring-2 ${
               errors.studentId ? "border-red-500 focus:ring-red-500" : "border-gray-300 focus:ring-blue-500"
             }`}
-            onChange={(e) => fetchEnrollments(Number(e.target.value))}
+              onChange={(e) => {
+                const id = Number(e.target.value);
+                setValue("studentId", id);
+                if (id) {
+                  fetchEnrollments(id);
+                }
+              }}
             disabled={loading}
+              value={selectedStudentId || ""}
           >
             <option value="">Select student</option>
             {students.map((s) => (

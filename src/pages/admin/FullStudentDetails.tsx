@@ -194,7 +194,7 @@ const FullStudentDetails = () => {
           <button
             className="bg-green-600 hover:bg-green-700 transition text-white px-4 py-2 rounded-lg font-semibold shadow-md"
             onClick={() => {
-              navigate(`/admin/academic-records/add`);
+              navigate(`/admin/academic-records/add?studentId=${id}`);
             }}
           >
             + Add Record
