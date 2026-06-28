@@ -131,7 +131,7 @@ const FullStudentDetails = () => {
     formData.append("passportPhoto", file);
 
     try {
-      const res = await api.put(`/admin/students/${id}/photo`, formData, {
+      await api.put(`/admin/students/${id}/photo`, formData, {
         headers: { "Content-Type": "multipart/form-data" },
       });
 
