@@ -20,6 +20,8 @@ const FullStudentDetails = () => {
     message: string;
   } | null>(null);
 
+  const [uploadingPhoto, setUploadingPhoto] = useState(false);
+
   useEffect(() => {
     fetchDetails();
   }, []);
@@ -113,6 +115,44 @@ const FullStudentDetails = () => {
     }
   };
 
+  // ================= NEW: Update Passport Photo =================
+  const handlePhotoUpdate = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    if (!file.type.startsWith('image/')) {
+      setFeedback({ type: "error", message: "Please select a valid image file" });
+      return;
+    }
+
+    setUploadingPhoto(true);
+
+    const formData = new FormData();
+    formData.append("passportPhoto", file);
+
+    try {
+      const res = await api.put(`/admin/students/${id}/photo`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      setFeedback({
+        type: "success",
+        message: "Passport photo updated successfully!",
+      });
+
+      // Refresh data to show new photo
+      await fetchDetails();
+    } catch (err: any) {
+      setFeedback({
+        type: "error",
+        message: err.response?.data?.message || "Failed to update photo",
+      });
+    } finally {
+      setUploadingPhoto(false);
+      // Reset input
+      e.target.value = "";
+    }
+  };
   if (loading) return <div className="text-center py-10 text-xl">Loading student details...</div>;
   if (!data) return <div className="text-center py-10 text-red-600">Failed to load student data</div>;
 
@@ -162,12 +202,28 @@ const FullStudentDetails = () => {
       {/* ================= HEADER ================= */}
       <div className="bg-white shadow rounded-lg p-6 flex items-center justify-between border-l-4 border-blue-500">
         <div className="flex items-center gap-4">
-          {data.passportPhotoUrl && (
-            <img
-              src={data.passportPhotoUrl}
-              alt="Student"
-              className="w-24 h-24 rounded-full border-2 border-blue-300 object-cover"
-            />
+         {data.passportPhotoUrl ? (
+            <div className="relative">
+              <img
+                src={data.passportPhotoUrl}
+                alt="Student"
+                className="w-24 h-24 rounded-full border-2 border-blue-300 object-cover"
+              />
+              <label className="absolute -bottom-1 -right-1 bg-blue-600 hover:bg-blue-700 text-white text-xs px-2 py-1 rounded-full cursor-pointer shadow">
+                📷 Change
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handlePhotoUpdate}
+                  disabled={uploadingPhoto}
+                  className="hidden"
+                />
+              </label>
+            </div>
+          ) : (
+            <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+              No Photo
+            </div>
           )}
 
           <div>
